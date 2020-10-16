@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Danqing</title>
+    <link>/</link>
+    <description>Recent content on Danqing</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Oct 2017 22:42:51 -0500</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aliquam</title>
+      <link>/blogs/aliquam/</link>
+      <pubDate>Tue, 31 Oct 2017 22:42:51 -0500</pubDate>
+      
+      <guid>/blogs/aliquam/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tempus</title>
+      <link>/blogs/tempus/</link>
+      <pubDate>Tue, 31 Oct 2017 22:26:13 -0500</pubDate>
+      
+      <guid>/blogs/tempus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Magna</title>
+      <link>/blogs/magna/</link>
+      <pubDate>Tue, 31 Oct 2017 22:26:09 -0500</pubDate>
+      
+      <guid>/blogs/magna/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hello R Markdown</title>
+      <link>/post/2015-07-23-r-rmarkdown/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/post/2015-07-23-r-rmarkdown/</guid>
+      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+You can embed an R code chunk like this:
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>About ME</title>
+      <link>/blogs/ipsum/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/ipsum/</guid>
+      <description>My name is Danqing Sun. I was born and grew up in China. I am enrolled in the Masters of Financial Analysis program in London Business School and I received my undergraduate education in Zhejiang University in Hangzhou, China. My major in University is also Finance.
+As to my interest and hobbies, I have to say I am an animal-lover and I raise a dog and a cat as pets. Zoos have long been my favorite places.</description>
+    </item>
+    
+    <item>
+      <title>About ME</title>
+      <link>/blogs/bloga/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/bloga/</guid>
+      <description>My name is Danqing Sun. I was born and grew up in China. I am enrolled in the Masters of Financial Analysis program in London Business School and I received my undergraduate education in Zhejiang University in Hangzhou, China. My major in University is also Finance.
+As to my interest and hobbies, I have to say I am an animal-lover and I raise a dog and a cat as pets.</description>
+    </item>
+    
+    <item>
+      <title>My Internship Experience</title>
+      <link>/blogs/blogb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blogb/</guid>
+      <description>Below are my internship experiences: Eastern Bell Capital, Investment Analyst Intern Shanghai, China 2020.03-2020.07 Participated in completing the research of the independent clinical laboratory (ICL) market in China, including market trend and major players analysis; Analyzed the development history and the reasons of success for the industry leader Completed the analysis of aftermarket for high-value equipment independently, including aviation, ship and rail aftermarket, energy equipment aftermarket and robot inspection market; Summarized the advantages, disadvantages and trend of different type of players; Analyzed the reasons for the presence or absence of independent MRO companies in each submarket studied    China International Capital Corporation Limited,IBD Summer Intern Hangzhou, China 2019.</description>
+    </item>
+    
+    <item>
+      <title>Presentation of Group Homework1</title>
+      <link>/blogs/blogc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blogc/</guid>
+      <description>In Group homework 1, we are asked to replicate a plot by using the original data. Below is the code for the data processing and plot drawing.
+# Replicate Figure 3 library(ggrepel) #input the data hom_sui &amp;lt;- read_csv(here::here(&amp;quot;content&amp;quot;,&amp;quot;blogs&amp;quot;,&amp;quot;CDC_Males.csv&amp;quot;)) #clean the data firearm &amp;lt;- hom_sui %&amp;gt;% filter(is.na(gun.house.prev.category)==FALSE,type==&amp;quot;Firearm&amp;quot;) ggplot(firearm,aes(x=adjusted.suicide.White,y=adjusted.homicide.White,label=ST))+ geom_point(shape=21,color=&amp;quot;black&amp;quot;,na.rm=TRUE,aes(size=average.pop.white,fill=gun.house.prev.category))+ geom_text_repel()+ labs(x= &amp;quot;White suicide rate (per 100,000 per year)&amp;quot;, y= &amp;quot;White homicide rate (per 100,000 per year)&amp;quot;)+ scale_fill_manual(name=&amp;quot;Gun ownership&amp;quot;, values=c(&amp;quot;#fef0d9&amp;quot;,&amp;quot;#fdcc8a&amp;quot;,&amp;quot;#fc8d59&amp;quot;,&amp;quot;#d7301f&amp;quot;))+ scale_size(labels =c(&amp;quot;0&amp;quot;,&amp;quot;500k&amp;quot;,&amp;quot;1.</description>
+    </item>
+    
+    <item>
+      <title>Presentation of Group Homework2</title>
+      <link>/blogs/blogd/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/blogs/blogd/</guid>
+      <description>In Group homework 2, we are asked to analyze the weekly and monthly excess rentals of the bikes sharing. We need to calculate the actual and expected rentals first on a weekly and annual basis.
+url &amp;lt;- &amp;quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&amp;quot; # Download TFL data to temporary file httr::GET(url, write_disk(bike.temp &amp;lt;- tempfile(fileext = &amp;quot;.xlsx&amp;quot;))) ## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20201016%2Feu-west-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Date=20201016T180447Z&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Signature=fa779876196b14adfcb676388ecfaf76b470fdf937b07b7a6fbb1e44a3c4caf9&amp;amp;X-Amz-SignedHeaders=host] ## Date: 2020-10-16 18:04 ## Status: 200 ## Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ## Size: 165 kB ## &amp;lt;ON DISK&amp;gt; /var/folders/2l/bd3qfwqn4w782xt_16tfbcrm0000gn/T//Rtmph3Yl4x/file1554053af530e.</description>
+    </item>
+    
+  </channel>
+</rss>

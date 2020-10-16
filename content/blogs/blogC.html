@@ -1,0 +1,37 @@
+---
+title: "Presentation of Group Homework1"
+output: html_document
+---
+
+
+
+<p>In Group homework 1, we are asked to replicate a plot by using the original data. Below is the code for the data processing and plot drawing.</p>
+<pre class="r"><code># Replicate Figure 3
+library(ggrepel)
+#input the data
+hom_sui &lt;- read_csv(here::here(&quot;content&quot;,&quot;blogs&quot;,&quot;CDC_Males.csv&quot;))      
+#clean the data
+firearm &lt;- hom_sui %&gt;%
+filter(is.na(gun.house.prev.category)==FALSE,type==&quot;Firearm&quot;)
+
+
+ggplot(firearm,aes(x=adjusted.suicide.White,y=adjusted.homicide.White,label=ST))+
+geom_point(shape=21,color=&quot;black&quot;,na.rm=TRUE,aes(size=average.pop.white,fill=gun.house.prev.category))+
+geom_text_repel()+ 
+labs(x= &quot;White suicide rate (per 100,000 per year)&quot;, 
+     y= &quot;White homicide rate (per 100,000 per year)&quot;)+ 
+  scale_fill_manual(name=&quot;Gun ownership&quot;,
+                    values=c(&quot;#fef0d9&quot;,&quot;#fdcc8a&quot;,&quot;#fc8d59&quot;,&quot;#d7301f&quot;))+
+  scale_size(labels =c(&quot;0&quot;,&quot;500k&quot;,&quot;1.5m&quot;,&quot;3m&quot;,&quot;7m&quot;),
+             name=&quot;White population&quot;,
+             range=c(1,12),
+             breaks =c(0,500000,1500000,3000000,7000000))+
+  theme(panel.border =element_rect(color=&quot;black&quot;,fill=&quot;transparent&quot;),
+        panel.background=element_rect(fill=&quot;white&quot;),
+        panel.grid.major = element_line(colour = &quot;#d9d9d9&quot;),
+        panel.grid.minor = element_line(colour = &quot;#d9d9d9&quot;),
+        legend.background = element_rect(fill=&quot;white&quot;),
+        legend.key = element_rect(fill=&quot;white&quot;))+
+        guides(fill = guide_legend(order=1,override.aes = list(size=5)),
+               size = guide_legend(order=0))</code></pre>
+<p><img src="/blogs/blogC_files/figure-html/unnamed-chunk-1-1.png" width="648" style="display: block; margin: auto;" /></p>

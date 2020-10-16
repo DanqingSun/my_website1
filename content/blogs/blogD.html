@@ -1,0 +1,160 @@
+---
+title: "Presentation of Group Homework2"
+output: html_document
+---
+
+
+
+<p>In Group homework 2, we are asked to analyze the weekly and monthly excess rentals of the bikes sharing. We need to calculate the actual and expected rentals first on a weekly and annual basis.</p>
+<pre class="r"><code>url &lt;- &quot;https://data.london.gov.uk/download/number-bicycle-hires/ac29363e-e0cb-47cc-a97a-e216d900a6b0/tfl-daily-cycle-hires.xlsx&quot;
+
+# Download TFL data to temporary file
+httr::GET(url, write_disk(bike.temp &lt;- tempfile(fileext = &quot;.xlsx&quot;)))</code></pre>
+<pre><code>## Response [https://airdrive-secure.s3-eu-west-1.amazonaws.com/london/dataset/number-bicycle-hires/2020-09-18T09%3A06%3A54/tfl-daily-cycle-hires.xlsx?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAJJDIMAIVZJDICKHA%2F20201016%2Feu-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20201016T180447Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=fa779876196b14adfcb676388ecfaf76b470fdf937b07b7a6fbb1e44a3c4caf9&amp;X-Amz-SignedHeaders=host]
+##   Date: 2020-10-16 18:04
+##   Status: 200
+##   Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+##   Size: 165 kB
+## &lt;ON DISK&gt;  /var/folders/2l/bd3qfwqn4w782xt_16tfbcrm0000gn/T//Rtmph3Yl4x/file1554053af530e.xlsx</code></pre>
+<pre class="r"><code># Use read_excel to read it as dataframe
+bike0 &lt;- read_excel(bike.temp,
+                   sheet = &quot;Data&quot;,
+                   range = cell_cols(&quot;A:B&quot;))
+
+# change dates to get year, month, and week
+bike &lt;- bike0 %&gt;% 
+  clean_names() %&gt;% 
+  rename (bikes_hired = number_of_bicycle_hires) %&gt;% 
+  mutate (year = year(day),
+          month = lubridate::month(day),
+          week = isoweek(day))
+glimpse(bike)</code></pre>
+<pre><code>## Rows: 3,686
+## Columns: 5
+## $ day         &lt;dttm&gt; 2010-07-30, 2010-07-31, 2010-08-01, 2010-08-02, 2010-08…
+## $ bikes_hired &lt;dbl&gt; 6897, 5564, 4303, 6642, 7966, 7893, 8724, 9797, 6631, 78…
+## $ year        &lt;dbl&gt; 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 2010, 20…
+## $ month       &lt;dbl&gt; 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,…
+## $ week        &lt;dbl&gt; 30, 30, 30, 31, 31, 31, 31, 31, 31, 31, 32, 32, 32, 32, …</code></pre>
+<pre class="r"><code># calculate the expected rentals and actual rentals
+bike2 &lt;- bike  %&gt;%
+  filter(year %in% c(&quot;2015&quot;,&quot;2016&quot;,&quot;2017&quot;,&quot;2018&quot;,&quot;2019&quot;,&quot;2020&quot;))%&gt;%
+  group_by(year,month) %&gt;%
+  mutate(average_month=mean(bikes_hired)) %&gt;%
+  ungroup() %&gt;%
+  group_by(year,week)%&gt;%
+  mutate(average_week=mean(bikes_hired)) %&gt;%
+  ungroup()%&gt;%
+  group_by(month)%&gt;%
+  mutate(expected_month=mean(bikes_hired))%&gt;%
+  ungroup()%&gt;%
+  group_by(week)%&gt;%
+  mutate(expected_week=mean(bikes_hired)) %&gt;%
+  ungroup() %&gt;%
+  mutate(excess_month=average_month-expected_month,excess_week=average_week-expected_week)
+glimpse(bike2)</code></pre>
+<pre><code>## Rows: 2,070
+## Columns: 11
+## $ day            &lt;dttm&gt; 2015-01-01, 2015-01-02, 2015-01-03, 2015-01-04, 2015…
+## $ bikes_hired    &lt;dbl&gt; 9615, 15389, 5779, 9367, 20566, 20765, 22504, 15769, …
+## $ year           &lt;dbl&gt; 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,…
+## $ month          &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…
+## $ week           &lt;dbl&gt; 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3,…
+## $ average_month  &lt;dbl&gt; 18828, 18828, 18828, 18828, 18828, 18828, 18828, 1882…
+## $ average_week   &lt;dbl&gt; 10038, 10038, 10038, 10038, 18786, 18786, 18786, 1878…
+## $ expected_month &lt;dbl&gt; 20697, 20697, 20697, 20697, 20697, 20697, 20697, 2069…
+## $ expected_week  &lt;dbl&gt; 16235, 16235, 16235, 16235, 21830, 21830, 21830, 2183…
+## $ excess_month   &lt;dbl&gt; -1869, -1869, -1869, -1869, -1869, -1869, -1869, -186…
+## $ excess_week    &lt;dbl&gt; -6197, -6197, -6197, -6197, -3043, -3043, -3043, -304…</code></pre>
+<pre class="r"><code># clean the data for monthly average
+bikemonth &lt;-bike2 %&gt;%
+  select(day,year,month,average_month,expected_month,excess_month) %&gt;%
+  group_by(year,month) %&gt;%
+  filter(row_number()==1)%&gt;%
+  ungroup()%&gt;%
+  mutate(excess=ifelse(excess_month&lt;0,&quot;A&quot;,&quot;B&quot;),
+         min=ifelse(excess_month&lt;=0,average_month,expected_month),
+         max=ifelse(excess_month&gt;0,average_month,expected_month))
+glimpse(bikemonth)</code></pre>
+<pre><code>## Rows: 68
+## Columns: 9
+## $ day            &lt;dttm&gt; 2015-01-01, 2015-02-01, 2015-03-01, 2015-04-01, 2015…
+## $ year           &lt;dbl&gt; 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015,…
+## $ month          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5,…
+## $ average_month  &lt;dbl&gt; 18828, 19617, 22625, 27951, 29031, 34659, 36607, 3364…
+## $ expected_month &lt;dbl&gt; 20697, 21658, 22237, 26808, 33043, 35819, 37794, 3473…
+## $ excess_month   &lt;dbl&gt; -1869, -2041, 388, 1143, -4012, -1160, -1187, -1091, …
+## $ excess         &lt;chr&gt; &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;, &quot;A&quot;…
+## $ min            &lt;dbl&gt; 18828, 19617, 22237, 26808, 29031, 34659, 36607, 3364…
+## $ max            &lt;dbl&gt; 20697, 21658, 22625, 27951, 33043, 35819, 37794, 3473…</code></pre>
+<pre class="r"><code># draw plot of monthly change
+  ggplot(bikemonth)+
+    facet_wrap(vars(year))+
+    geom_line(aes(x=month,y=expected_month,group=1),color=&quot;blue&quot;)+
+    geom_line(aes(x=month,y=average_month,group=1))+
+    geom_ribbon(aes(x=month,ymin=min,ymax=expected_month),fill=&quot;#fa9fb5&quot;,alpha=0.6)+
+    geom_ribbon(aes(x=month,ymin=min,ymax=average_month),fill=&quot;#c7e9c0&quot;,alpha=0.6)+
+    scale_x_continuous(breaks=c(1,2,3,4,5,6,7,8,9,10,11,12),labels = c(&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;))+
+    theme(panel.border =element_rect(color=&quot;transparent&quot;,fill=&quot;transparent&quot;),
+          panel.background=element_rect(fill=&quot;white&quot;),
+          panel.grid.major = element_line(colour = &quot;#f0f0f0&quot;),
+          panel.grid.minor = element_line(colour = &quot;#f0f0f0&quot;),
+          strip.background = element_rect(color=&quot;transparent&quot;,fill=&quot;transparent&quot;),
+          plot.title=element_text(size=10,face=&quot;bold&quot;),
+          plot.subtitle=element_text(size=9),
+          strip.text=element_text(size=7),
+          axis.text.x=element_text(size=6),
+          axis.text.y=element_text(size=7),
+          axis.ticks=element_blank(),
+          plot.caption = element_text(size=8))+
+    labs(x=NULL,y=&quot;Bike rentals&quot;,title=&quot;Monthly changes in Tfl bike rentals&quot;,subtitle = &quot;Change from monthly average shown in blue\nand calculated between 2015-2019&quot;,caption=&quot;Source:Tfl,London Data Store&quot;)+
+    guides(fill=F)+
+    coord_fixed(ratio=0.0004)</code></pre>
+<p><img src="/blogs/blogD_files/figure-html/unnamed-chunk-1-1.png" width="648" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#clean the data of weekly rentals
+bikeweek &lt;- bike2 %&gt;%
+  select(day,year,week,average_week,expected_week,excess_week) %&gt;%
+  group_by(year,week) %&gt;%
+  filter(row_number()==1)%&gt;%
+  ungroup()%&gt;%
+  mutate(change_rate=excess_week/expected_week,group=ifelse(change_rate&gt;0,&quot;A&quot;,&quot;B&quot;),rectangle=ifelse(week %in% c(14:26,40:52),&quot;G&quot;,&quot;W&quot;),min=ifelse(change_rate&gt;0,0,change_rate))
+glimpse(bikeweek)</code></pre>
+<pre><code>## Rows: 298
+## Columns: 10
+## $ day           &lt;dttm&gt; 2015-01-01, 2015-01-05, 2015-01-12, 2015-01-19, 2015-…
+## $ year          &lt;dbl&gt; 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, 2015, …
+## $ week          &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
+## $ average_week  &lt;dbl&gt; 10038, 18786, 20131, 21158, 19201, 19386, 20787, 18711…
+## $ expected_week &lt;dbl&gt; 16235, 21830, 21740, 21903, 21413, 20844, 22427, 22538…
+## $ excess_week   &lt;dbl&gt; -6197.0, -3043.3, -1608.9, -745.0, -2211.9, -1458.2, -…
+## $ change_rate   &lt;dbl&gt; -0.381718, -0.139412, -0.074003, -0.034016, -0.103297,…
+## $ group         &lt;chr&gt; &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;A&quot;,…
+## $ rectangle     &lt;chr&gt; &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;, &quot;W&quot;,…
+## $ min           &lt;dbl&gt; -0.38172, -0.13941, -0.07400, -0.03402, -0.10330, -0.0…</code></pre>
+<pre class="r"><code>#draw plot of weekly rentals
+ggplot(bikeweek)+
+  facet_wrap(vars(year))+
+  geom_rect(aes(xmin=13,xmax=26,ymin=-Inf,ymax=+Inf),fill=&quot;#f0f0f0&quot;,alpha=0.1)+
+  geom_rect(aes(xmin=39,xmax=52,ymin=-Inf,ymax=+Inf),fill=&quot;#f0f0f0&quot;,alpha=0.1)+
+  geom_rug(aes(x=week,color=group))+
+  geom_line(aes(x=week,y=change_rate,group=1))+
+  geom_ribbon(aes(x=week,ymin=min,ymax=change_rate),fill=&quot;#c7e9c0&quot;,alpha=0.6)+
+  geom_ribbon(aes(x=week,ymin=min,ymax=0),fill=&quot;#fa9fb5&quot;,alpha=0.6)+
+  scale_y_continuous(labels=c(&quot;-60%&quot;,&quot;-30%&quot;,&quot;0%&quot;,&quot;30%&quot;,&quot;60%&quot;),breaks=c(-0.6,-0.3,0,0.3,0.6))+
+  scale_x_continuous(breaks=seq(0,53,13))+
+  theme(  panel.border=element_blank(),
+          axis.ticks=element_line(),
+          panel.background=element_rect(fill=&quot;white&quot;),
+          panel.grid.major = element_line(colour = &quot;#d2d2d2&quot;),
+          panel.grid.minor = element_line(colour = &quot;#d2d2d2&quot;),
+          strip.background = element_rect(color=&quot;transparent&quot;,fill=&quot;transparent&quot;),
+          plot.title=element_text(size=10,face=&quot;bold&quot;),
+          plot.subtitle=element_text(size=9),
+          strip.text=element_text(size=7),
+          axis.text.x=element_text(size=7),
+          axis.text.y=element_text(size=7),
+          plot.caption = element_text(size=8))+
+  labs(x=&quot;week&quot;,y=NULL,title=&quot;Weekly change in Tfl bike rentals&quot;,subtitle=&quot;%change from weekly averages\ncalculated between 2015-2019&quot;,caption=&quot;Source:Tfl,London Data Store&quot;)+
+  guides(fill=F,color=F)+
+  scale_color_manual(values=c(&quot;#c7e9c0&quot;,&quot;#fa9fb5&quot;))</code></pre>
+<p><img src="/blogs/blogD_files/figure-html/unnamed-chunk-2-1.png" width="648" style="display: block; margin: auto;" /></p>

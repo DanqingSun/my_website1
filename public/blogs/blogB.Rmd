@@ -1,0 +1,39 @@
+---
+title: "My Internship Experience"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Below are my internship experiences:
+#### Eastern Bell Capital, Investment Analyst Intern	Shanghai, China
+##### 2020.03-2020.07
+1. Participated in completing the research of the independent clinical laboratory (ICL) market in China, including market trend and major players analysis; Analyzed the development history and the reasons of success for the industry leader
+2. Completed the analysis of aftermarket for high-value equipment independently, including aviation, ship and rail aftermarket, energy equipment aftermarket and robot inspection market; Summarized the advantages, disadvantages and trend of different type of players; Analyzed the reasons for the presence or absence of independent MRO companies in each submarket studied
+
+#### China International Capital Corporation Limited,IBD Summer Intern	Hangzhou, China
+##### 2019.07-2019.08
+1. Participated in software company's IPO project and assisted in financial verification for 2019’s first half year, including cash flow examination, deposit confirmation, customer interviews to ensure audit financial disclosures
+Summarized investment highlights for a robots-selling company’s roadshow slides, industry analysis in proposal to a kitchen electronic appliance company and policy analysis for an optical-product manufacturing company’s back to A-share plan  
+2. Assisted in deal-sourcing within Zhejiang province; Listed 7 potential companies in need of finance services or products to the team leader based on previous financials of the company, stock pledge and increase or decrease of holdings of the shareholders
+
+#### CITIC Securities,IBD Project Intern	Hangzhou, China
+##### 2019.01-2019.06
+1. Participated in a technology company's IPO project and assisted in completing IPO application materials such as profiles of company’s upstream suppliers and recommendation letter of issuance; Compiled the issuer's expected market value report and valued the company based on its internal and external equity financing situation and comparable companies analysis 
+2. Prepared the company’s roadshow slide independently including company profile, industry introduction; Summarized eight investment highlights based on product promotion materials and prospectus and got CFO’s approval
+3. Assisted in the valuation of a technology company with DCF model; Estimated future expenses and CAPEX of the company based on its past and current financial data and made a sensitivity analysis of WACC by changing parameters
+
+#### Huaying Securities,IBD Project Intern	Wuxi, China
+##### 2018.07-2018.09
+1. Involved in a life insurance company’s financing project; Assisted in analyzing shareholder structure and bidding company's previous capital increase methods in the due diligence report; Participated in writing equity optimization and capital increase plan, analyzed key issues needed to be noticed in the capital increase and contributed to the proposal of three increase plans
+2. Assisted in writing a network security company’s investment due diligence report; Analyzed history, policies and future of the network security industry; Participated in valuing the company with PS ratio and assisted in the completion of income forecast
+
+#### The Boston Consulting Group,Part-time Assistant	Shanghai, China
+##### 2018.06-2018.10
+1. Involved in a technology company’s project; Analyzed the reasons and advantages of the benchmarking company in entering the integrated solution field and summarized the characteristics of the field including the roles of different distribution channels 
+2. Involved in a sportswear project and assisted in analyzing Thailand market about the characteristics and trend of tourist assumption; Offered tested hypotheses on reasons for high consumptions from tourists and Thai women
+
+
+

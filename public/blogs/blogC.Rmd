@@ -1,0 +1,75 @@
+---
+title: "Presentation of Group Homework1"
+output: html_document
+---
+
+In Group homework 1, we are asked to replicate a plot by using the original data. Below is the code for the data processing and plot drawing.
+
+```{r, setup, echo=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(fivethirtyeight)
+library(here)
+library(skimr)
+library(janitor)
+library(vroom)
+library(tidyquant)
+library(rvest)    # scrape websites
+library(purrr)  
+library(lubridate) #to handle dates
+library(dplyr)
+library(patchwork)
+```
+
+```{r}
+# Replicate Figure 3
+library(ggrepel)
+#input the data
+hom_sui <- read_csv(here::here("content","blogs","CDC_Males.csv"))      
+#clean the data
+firearm <- hom_sui %>%
+filter(is.na(gun.house.prev.category)==FALSE,type=="Firearm")
+
+
+ggplot(firearm,aes(x=adjusted.suicide.White,y=adjusted.homicide.White,label=ST))+
+geom_point(shape=21,color="black",na.rm=TRUE,aes(size=average.pop.white,fill=gun.house.prev.category))+
+geom_text_repel()+ 
+labs(x= "White suicide rate (per 100,000 per year)", 
+     y= "White homicide rate (per 100,000 per year)")+ 
+  scale_fill_manual(name="Gun ownership",
+                    values=c("#fef0d9","#fdcc8a","#fc8d59","#d7301f"))+
+  scale_size(labels =c("0","500k","1.5m","3m","7m"),
+             name="White population",
+             range=c(1,12),
+             breaks =c(0,500000,1500000,3000000,7000000))+
+  theme(panel.border =element_rect(color="black",fill="transparent"),
+        panel.background=element_rect(fill="white"),
+        panel.grid.major = element_line(colour = "#d9d9d9"),
+        panel.grid.minor = element_line(colour = "#d9d9d9"),
+        legend.background = element_rect(fill="white"),
+        legend.key = element_rect(fill="white"))+
+        guides(fill = guide_legend(order=1,override.aes = list(size=5)),
+               size = guide_legend(order=0))
+  
+```
+
+
